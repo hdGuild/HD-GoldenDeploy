@@ -24,3 +24,8 @@ Knowing that, the link have to be made between these servers.
 ## Storyline
 
     0. Terraform code to deploy an Ubuntu server on DigitalOcean
+    1. use jenkins to deploy terraform ubuntu server on DO
+    2. add Ansible to server deployed
+    3. ansible deploy of LEMP server on ubuntu server
+    4. use jenkins to do setps from 2 to 3 above.
+    
