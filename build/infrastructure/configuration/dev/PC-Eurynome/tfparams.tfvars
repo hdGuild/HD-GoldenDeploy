@@ -8,7 +8,7 @@ region = "FRA1"
 fullpath_do_token_file = "C:\\users\\Philippe\\.pat\\hdguild2do.token"  # PAT replace passwords -> used for provider.tf connection
 
 # server variables
-server_image = "wordpress-18-04"
+server_image = "ubuntu-18-04-x64"
 server_name = "hdguild-website"
 server_size = "s-1vcpu-1gb" # minimal configuration - enought for tests
 ssh_key_id = "27305903" #PC_Eurynome_id_rsa on Digital Ocean
