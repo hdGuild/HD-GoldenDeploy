@@ -18,4 +18,4 @@ server_root_name = "root"
 connectionType = "ssh" # winrm on windows \\ ssh on linux
 
 # init server variables
-initial_server_setup_script = ""
+initial_server_setup_script = "../scripts/initial_ubuntu_server_setup.sh"

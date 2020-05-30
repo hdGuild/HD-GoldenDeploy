@@ -27,8 +27,8 @@ resource "digitalocean_droplet" "hdGuild_WebSite" {
     }
     # initial setup for server install
     # Do not forgot to add the key to ssh agent before this step !!
-    # provisioner "remote-exec" {
-    #     scripts = [var.initial_server_setup_script]
-    # }
+    provisioner "remote-exec" {
+        scripts = [var.initial_server_setup_script]
+    }
     
 }
