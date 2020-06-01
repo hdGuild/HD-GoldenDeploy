@@ -3,13 +3,13 @@ set -euo pipefail
 
 # this script is to install LEMP server on ubuntu server.
 
-## Step 1 : Install Nginx
+## Step 1 : Install nginx
 apt-get update
-apt-get -y install Nginx
+apt-get -y install nginx
 ### remove unnecessary packages if any
 apt-get -y autoremove
 ### allow nginx through ufw firewall
-ufw allow 'Nginx HTTP'
+ufw allow 'nginx HTTP'
 
 ### shows the nginx ip addresses
 # ip addr show eth0 | grep inet | awk '{ print $2; }' | sed 's/\/.*$//'
@@ -18,13 +18,18 @@ ufw allow 'Nginx HTTP'
 # curl -4 icanhazip.com
 
 ## Step 2 – Installing MySQL to Manage Site Data
+
 apt-get -y install mysql-server
+
 ### remove unnecessary packages if any
 apt-get -y autoremove
+
 ### generate mySQL password 
 my_pwd=`openssl rand -base64 14`
+
 # set default mysql security with no user interactivity
 # mysql_secure_installation -D -p=$my_pwd
+
 ### the following script does the above code line.
 cat << EOF >> init_mysql.sql
 UPDATE mysql.user SET authentication_string=PASSWORD('$my_pwd') WHERE User='root';
@@ -33,14 +38,52 @@ DELETE FROM mysql.user WHERE User='';
 DELETE FROM mysql.db WHERE Db='test' OR Db='test_%';
 FLUSH PRIVILEGES;
 EOF
-### set the password for root user
+
+### apply the init_mysql.sql file to database as root user
 mysql -u root mysql < init_mysql.sql
-# deleting init file for security
+
+### deleting init file for security
 rm init_mysql.sql
 
 
+## Step 3 – Installing PHP and Configuring Nginx to Use the PHP Processor
+### add Ubuntu’s universe repository, which includes free and open-source software maintained by the Ubuntu community
+add-apt-repository universe
+apt-get -y install php-fpm php-mysql
 
+### create default example site to test nginx wih PHP
+cat << 'EOF' >> /etc/nginx/sites-available/example.com
+server {
+        listen 80;
+        root /var/www/html;
+        index index.php index.html index.htm index.nginx-debian.html;
+        server_name example.com;
 
+        location / {
+                try_files $uri $uri/ =404;
+        }
 
+        location ~ \.php$ {
+                include snippets/fastcgi-php.conf;
+                fastcgi_pass unix:/var/run/php/php7.2-fpm.sock;
+        }
 
+        location ~ /\.ht {
+                deny all;
+        }
+}
+EOF
+### Enable your new server block by creating a symbolic link
+ln -s /etc/nginx/sites-available/example.com /etc/nginx/sites-enabled/
+### Then, unlink the default configuration file from the /sites-enabled/ directory:
+unlink /etc/nginx/sites-enabled/default
+#### testing configuration file
+### nginx -t
+### reload nginx configuration
+systemctl reload nginx
 
+## Step 4 – Creating a PHP File to Test Configuration
+cat << 'EOF' >> /var/www/html/info.php
+<?php
+phpinfo();
+EOF
