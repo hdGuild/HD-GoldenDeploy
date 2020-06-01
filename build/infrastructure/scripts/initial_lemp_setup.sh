@@ -25,3 +25,4 @@ apt-get -y autoremove
 my_pwd='openssl rand -base64 14'
 # set default mysql security with no user interactivity
 # mysql_secure_installation -D -p=$my_pwd
+### the following script does the above code line.
