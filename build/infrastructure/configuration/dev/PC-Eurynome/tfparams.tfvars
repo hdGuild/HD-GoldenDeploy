@@ -19,3 +19,4 @@ connectionType = "ssh" # winrm on windows \\ ssh on linux
 
 # init server variables
 initial_server_setup_script = "../scripts/initial_ubuntu_server_setup.sh"
+initial_lemp_setup_script = "../scripts/initial_lemp_setup.sh"
