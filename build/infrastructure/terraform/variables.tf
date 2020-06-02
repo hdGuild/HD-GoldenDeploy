@@ -19,3 +19,4 @@ variable "connectionType" {}
 # init server variables
 variable "initial_server_setup_script" {}
 variable "initial_lemp_setup_script" {}
+variable "initial_letsencrypt_setup_script" {}

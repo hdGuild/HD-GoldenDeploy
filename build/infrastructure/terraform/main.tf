@@ -29,7 +29,9 @@ resource "digitalocean_droplet" "hdGuild_WebSite" {
     # Do not forgot to add the key to ssh agent before this step !!
     provisioner "remote-exec" {
         scripts = [var.initial_server_setup_script,
-                   var.initial_lemp_setup_script]
+                   var.initial_lemp_setup_script,
+                   var.initial_letsencrypt_setup_script
+                   ]
     }
     
 }
