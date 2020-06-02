@@ -52,29 +52,32 @@ add-apt-repository universe
 apt-get -y install php-fpm php-mysql
 
 ### create default example site to test nginx wih PHP
-cat << 'EOF' >> /etc/nginx/sites-available/example.com
+test_site='re7.helldorado.fr'
+#### if EOF is not quoted, then '$, \ and `' caracters have to be escaped
+#### see https://www.gnu.org/savannah-checkouts/gnu/bash/manual/bash.html#Here-Documents
+cat << EOF >> /etc/nginx/sites-available/$test_site
 server {
         listen 80;
         root /var/www/html;
         index index.php index.html index.htm index.nginx-debian.html;
-        server_name example.com;
+        server_name $test_site:;
 
         location / {
-                try_files $uri $uri/ =404;
+                try_files \$uri \$uri/ =404;
         }
 
-        location ~ \.php$ {
+        location ~ \\.php$ {
                 include snippets/fastcgi-php.conf;
                 fastcgi_pass unix:/var/run/php/php7.2-fpm.sock;
         }
 
-        location ~ /\.ht {
+        location ~ /\\.ht {
                 deny all;
         }
 }
 EOF
 ### Enable your new server block by creating a symbolic link
-ln -s /etc/nginx/sites-available/example.com /etc/nginx/sites-enabled/
+ln -s /etc/nginx/sites-available/$test_site /etc/nginx/sites-enabled/
 ### Then, unlink the default configuration file from the /sites-enabled/ directory:
 unlink /etc/nginx/sites-enabled/default
 #### testing configuration file
