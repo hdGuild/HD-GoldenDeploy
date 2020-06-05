@@ -1,5 +1,12 @@
 # terraform main file for ubuntu server deployment
 
+# data "digitalocean_floating_ip" "hdGuild_ip" {
+#   region = var.region
+#   ip_address = var.floating_ip
+#   provider = "digitalocean"
+# }
+
+
 resource "digitalocean_droplet" "hdGuild_WebSite" {
     # generic data
     #tags = local.common_tags
@@ -29,9 +36,15 @@ resource "digitalocean_droplet" "hdGuild_WebSite" {
     # Do not forgot to add the key to ssh agent before this step !!
     provisioner "remote-exec" {
         scripts = [var.initial_server_setup_script,
-                   var.initial_lemp_setup_script,
-                   var.initial_letsencrypt_setup_script
+                   var.initial_lemp_setup_script
+                   # ,var.initial_letsencrypt_setup_script
                    ]
     }
     
+}
+
+
+resource "digitalocean_floating_ip_assignment" "hdGuild_floatingip_assign" {
+  ip_address = var.floating_ip
+  droplet_id = digitalocean_droplet.hdGuild_WebSite.id
 }

@@ -52,7 +52,7 @@ add-apt-repository universe
 apt-get -y install php-fpm php-mysql
 
 ### create default example site to test nginx wih PHP
-test_site='re7.helldorado.fr'
+test_site='dev.helldorado.fr'
 #### if EOF is not quoted, then '$, \ and `' caracters have to be escaped
 #### see https://www.gnu.org/savannah-checkouts/gnu/bash/manual/bash.html#Here-Documents
 cat << EOF >> /etc/nginx/sites-available/$test_site
