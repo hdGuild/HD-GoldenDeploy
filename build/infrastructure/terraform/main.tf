@@ -48,3 +48,24 @@ resource "digitalocean_floating_ip_assignment" "hdGuild_floatingip_assign" {
   ip_address = var.floating_ip
   droplet_id = digitalocean_droplet.hdGuild_WebSite.id
 }
+
+# install letsencrypt on above lemp server
+resource "null_resource" "hdGuild_WebSite_postinstall" {
+
+    # connection to use for provisionning
+    connection {
+        user = var.server_root_name
+        type = var.connectionType
+        # no need of private key as the agent as loaded the ssh private key
+        #private_key = file(var.fullpath_priv_key_file)
+        agent = true
+        timeout = "2m"
+        host = digitalocean_droplet.hdGuild_WebSite.ipv4_address
+    }
+    # initial setup for server install
+    # Do not forgot to add the key to ssh agent before this step !!
+    provisioner "remote-exec" {
+        scripts = [var.initial_letsencrypt_setup_script
+                   ]
+    }
+}
