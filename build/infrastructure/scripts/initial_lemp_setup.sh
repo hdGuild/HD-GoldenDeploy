@@ -51,16 +51,24 @@ rm init_mysql.sql
 add-apt-repository universe
 apt-get -y install php-fpm php-mysql
 
-### create default example site to test nginx wih PHP
+### create site structure to use with nginx
 test_site='dev.helldorado.fr'
-#### if EOF is not quoted, then '$, \ and `' caracters have to be escaped
+# create a directory structure within /var/www for each of our sites.
+mkdir -p /var/www/$test_site/html
+# reassign ownership of the web directories to our normal user account.
+chown -R $USER:$USER /var/www/$test_site/html
+chmod -R 755 /var/www
+#### REM : if EOF is not quoted, then '$, \ and `' caracters have to be escaped
 #### see https://www.gnu.org/savannah-checkouts/gnu/bash/manual/bash.html#Here-Documents
 cat << EOF >> /etc/nginx/sites-available/$test_site
 server {
-        listen 80;
-        root /var/www/html;
+        listen 80 ;
+        listen [::]:80 ;
+
+        root /var/www/$test_site/html;
         index index.php index.html index.htm index.nginx-debian.html;
-        server_name $test_site:;
+
+        server_name $test_site www.$test_site;
 
         location / {
                 try_files \$uri \$uri/ =404;
@@ -76,6 +84,7 @@ server {
         }
 }
 EOF
+
 ### Enable your new server block by creating a symbolic link
 ln -s /etc/nginx/sites-available/$test_site /etc/nginx/sites-enabled/
 ### Then, unlink the default configuration file from the /sites-enabled/ directory:
@@ -86,7 +95,7 @@ unlink /etc/nginx/sites-enabled/default
 systemctl reload nginx
 
 ## Step 4 – Creating a PHP File to Test Configuration
-cat << 'EOF' >> /var/www/html/info.php
+cat << EOF >> /var/www/$test_site/html/info.php
 <?php
 phpinfo();
 EOF

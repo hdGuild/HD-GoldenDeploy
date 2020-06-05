@@ -1,5 +1,5 @@
 #!/bin/bash
-# set -euo pipefail
+set -euo pipefail
 
 # this script is to deploy letsencrypt on ubuntu lemp server
 website='dev.helldorado.fr'
@@ -20,7 +20,8 @@ ufw delete allow 'Nginx HTTP'
 
 ## Step 4 — Obtaining an SSL Certificate
 # sudo certbot --nginx -d <site> -d www.<site>
-certbot --nginx -d $website -d www.$website -m $webmail --agree-tos --no-eff-email --force-renew
+# --dry-run is for tests purpose : let'sencrypt stagging environment. see https://letsencrypt.org/docs/staging-environment/
+certbot --nginx -d $website -d www.$website -m $webmail --agree-tos --no-eff-email --force-renew --dry-run 
 
 
 ## Step 5 — Verifying Certbot Auto-Renewal
