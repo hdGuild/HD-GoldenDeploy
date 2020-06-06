@@ -56,7 +56,7 @@ test_site='dev.helldorado.fr'
 # create a directory structure within /var/www for each of our sites.
 mkdir -p /var/www/$test_site/html
 # reassign ownership of the web directories to our normal user account.
-chown -R $USER:$USER /var/www/$test_site/html
+chown -R www-data:www-data /var/www/$test_site/html
 chmod -R 755 /var/www
 #### REM : if EOF is not quoted, then '$, \ and `' caracters have to be escaped
 #### see https://www.gnu.org/savannah-checkouts/gnu/bash/manual/bash.html#Here-Documents
@@ -84,6 +84,8 @@ server {
         }
 }
 EOF
+### copy default  nginx site to $test_site
+cp /var/www/html/index.nginx-debian.html  /var/www/$test_site/html/
 
 ### Enable your new server block by creating a symbolic link
 ln -s /etc/nginx/sites-available/$test_site /etc/nginx/sites-enabled/

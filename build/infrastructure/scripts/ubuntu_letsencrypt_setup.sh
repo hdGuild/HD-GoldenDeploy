@@ -21,7 +21,7 @@ ufw delete allow 'Nginx HTTP'
 ## Step 4 — Obtaining an SSL Certificate
 # sudo certbot --nginx -d <site> -d www.<site>
 # --dry-run is for tests purpose : let'sencrypt stagging environment. see https://letsencrypt.org/docs/staging-environment/
-certbot --nginx -d $website -d www.$website -m $webmail --agree-tos --no-eff-email --force-renew --dry-run 
+certbot certonly --nginx -d $website -d www.$website -m $webmail --agree-tos --no-eff-email --force-renew --test-cert 
 
 
 ## Step 5 — Verifying Certbot Auto-Renewal

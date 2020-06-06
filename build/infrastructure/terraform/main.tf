@@ -69,3 +69,8 @@ resource "null_resource" "hdGuild_WebSite_postinstall" {
                    ]
     }
 }
+
+resource "digitalocean_domain" "hdguild_domain" {
+  name       = var.domain_name
+  ip_address = var.floating_ip
+}

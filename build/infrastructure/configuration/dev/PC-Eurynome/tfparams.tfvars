@@ -17,6 +17,7 @@ ssh_key_id = "27305903" #PC_Eurynome_id_rsa on Digital Ocean
 server_root_name = "root"
 connectionType = "ssh" # winrm on windows \\ ssh on linux
 floating_ip = "138.68.124.251" # fix ip to link to the droplet
+domain_name = "dev.helldorado.fr"
 
 # init server variables
 initial_server_setup_script = "../scripts/initial_ubuntu_server_setup.sh"
