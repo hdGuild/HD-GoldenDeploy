@@ -43,11 +43,12 @@ resource "digitalocean_droplet" "hdGuild_WebSite" {
     
 }
 
-
-resource "digitalocean_floating_ip_assignment" "hdGuild_floatingip_assign" {
-  ip_address = var.floating_ip
-  droplet_id = digitalocean_droplet.hdGuild_WebSite.id
-}
+## no more use of floating ip as costing 
+##
+# resource "digitalocean_floating_ip_assignment" "hdGuild_floatingip_assign" {
+#   ip_address = var.floating_ip
+#   droplet_id = digitalocean_droplet.hdGuild_WebSite.id
+# }
 
 # install letsencrypt on above lemp server
 resource "null_resource" "hdGuild_WebSite_postinstall" {
@@ -70,7 +71,10 @@ resource "null_resource" "hdGuild_WebSite_postinstall" {
     }
 }
 
-resource "digitalocean_domain" "hdguild_domain" {
-  name       = var.domain_name
-  ip_address = var.floating_ip
-}
+## no more use of domain in digitalocean as 
+## no more use of floating ip.
+##
+# resource "digitalocean_domain" "hdguild_domain" {
+#   name       = var.domain_name
+#   ip_address = var.flvoating_ip
+# }

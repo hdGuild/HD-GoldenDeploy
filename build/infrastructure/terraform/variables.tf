@@ -15,8 +15,12 @@ variable "ssh_key_id" {} # id of DigitalOcean user sshkey to add to droplet
 # connection to server variables 
 variable "server_root_name" {}
 variable "connectionType" {}
-variable "floating_ip" {}
-variable "domain_name" {}
+## no more use of floating ip as costing 
+## and possibily letsencrypt bugging
+## variable "floating_ip" {}
+## no more use of domain in digitalocean as 
+## no more use of floating ip.
+## variable "domain_name" {}
 
 # init server variables
 variable "initial_server_setup_script" {}
