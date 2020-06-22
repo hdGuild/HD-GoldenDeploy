@@ -44,6 +44,7 @@ resource "digitalocean_droplet" "hdGuild_WebSite" {
 }
 
 ## no more use of floating ip as costing 
+## and possibily letsencrypt bugging
 ##
 # resource "digitalocean_floating_ip_assignment" "hdGuild_floatingip_assign" {
 #   ip_address = var.floating_ip
