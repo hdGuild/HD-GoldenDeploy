@@ -1,4 +1,4 @@
-# HD-WebSiteDeploy project
+# HD-GoldenDeploy project
 
 ## about project
 
